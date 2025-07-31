@@ -34,3 +34,8 @@ EasyDocs Web is a document-based intelligent chatbot system that enables users t
 ```bash
 git clone https://github.com/Niranjana261102/EasyDocs_Web.git
 cd EasyDocs_Web
+```
+
+# EasyDocs Web
+
+
