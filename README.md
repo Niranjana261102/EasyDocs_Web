@@ -38,16 +38,19 @@ cd EasyDocs_Web
 
 ## 📷 Screenshots
 
-### 🔹 Home Page
-<img src="Screenshots\WEB1.jpg" alt="Screenshot" width="800" height="400"/>
+### 🔹 Home Screen
+<img src="Screenshots/WEB1.png" alt="Screenshot" width="800" height="400"/>
 
-### 🔹 Document Upload
-<img src="AND3.jpg" alt="Screenshot" width="200" height="400"/>
-
-### 🔹 Login Screen
-<img src="AND1.jpg" alt="Screenshot" width="200" height="400"/>
+### 🔹 About Screen
+<img src="Screenshots/WEB2.png" alt="Screenshot" width="800" height="400"/>
 
 ### 🔹 Register Screen
-<img src="AND2.jpg" alt="Screenshot" width="200" height="400"/>
+<img src="Screenshots/WEB3.png" alt="Screenshot" width="800" height="400"/>
+
+### 🔹 Login Screen
+<img src="Screenshots/WEB4.png" alt="Screenshot" width="800" height="400"/>
+
+### 🔹 Chat Interface
+<img src="Screenshots/WEB5.png" alt="Screenshot" width="800" height="400"/>
 
 
