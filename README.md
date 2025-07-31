@@ -45,10 +45,10 @@ cd EasyDocs_Web
 <img src="Screenshots/WEB2.png" alt="Screenshot" width="800" height="400"/>
 
 ### 🔹 Register Screen
-<img src="Screenshots/WEB3.png" alt="Screenshot" width="800" height="400"/>
+<img src="Screenshots/WEB3.png" alt="Screenshot" width="300" height="500"/>
 
 ### 🔹 Login Screen
-<img src="Screenshots/WEB4.png" alt="Screenshot" width="800" height="400"/>
+<img src="Screenshots/WEB4.png" alt="Screenshot" width="300" height="500"/>
 
 ### 🔹 Chat Interface
 <img src="Screenshots/WEB5.png" alt="Screenshot" width="800" height="400"/>
