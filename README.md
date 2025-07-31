@@ -26,6 +26,17 @@ EasyDocs Web is a document-based intelligent chatbot system that enables users t
   - Question Answering Logic
 - **PDF/DOCX Parsing**: `PyMuPDF`, `python-docx`
 - **Deployment**: Localhost or any Flask-compatible hosting
+- **Authentication**: Firebase Authentication
+
+## 🔐 Firebase Integration
+
+This app uses **Firebase Authentication** to handle user login and session management.
+
+> 📌 To enable it:
+> 1. Go to [Firebase Console](https://console.firebase.google.com/)
+> 2. Create a project and enable Email/Password authentication
+> 3. Replace Firebase config in `static/js/firebase.js` or equivalent
+
 
 ## 🚀 Getting Started
 
