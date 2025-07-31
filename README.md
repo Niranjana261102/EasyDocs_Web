@@ -36,6 +36,18 @@ git clone https://github.com/Niranjana261102/EasyDocs_Web.git
 cd EasyDocs_Web
 ```
 
-# EasyDocs Web
+## 📷 Screenshots
+
+### 🔹 Home Page
+<img src="Screenshots\WEB1.jpg" alt="Screenshot" width="800" height="400"/>
+
+### 🔹 Document Upload
+<img src="AND3.jpg" alt="Screenshot" width="200" height="400"/>
+
+### 🔹 Login Screen
+<img src="AND1.jpg" alt="Screenshot" width="200" height="400"/>
+
+### 🔹 Register Screen
+<img src="AND2.jpg" alt="Screenshot" width="200" height="400"/>
 
 
