@@ -1,0 +1,365 @@
+<!--chatbot.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyDocs</title>
+    <link href="{{ url_for('static', filename='img/logo.png') }}" rel="icon">
+    <link href="{{ url_for('static', filename='img/logo.png') }}" rel="apple-touch-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+     <style>
+        :root {
+            --primary-color: #1e2a4a; /* Dark blue matching the image */
+            --background-color: #ffffff;
+            --panel-background: #ffffff;
+            --text-color: #333333;
+            --message-background: #f5f8ff;
+            --bot-message-background: #ffffff;
+            --code-background: #f0f4ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background: var(--primary-color);
+            margin-bottom: 0;
+        }
+
+        .header-content {
+            text-align: left;
+        }
+
+        .header-content h1, .header h6 {
+            color: #ffffff;
+        }
+
+        .header a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            transition: background 0.3s;
+        }
+
+        .header a:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .chat-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: calc(100vh - 90px);
+            overflow: hidden;
+            background: var(--panel-background);
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            padding: 1rem 2rem;
+            overflow-y: auto;
+        }
+
+        .message {
+            max-width: 80%;
+            margin: 0.7rem;
+            padding: 1rem;
+            border-radius: 15px;
+            animation: fadeIn 0.3s ease-in;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .user-message {
+            margin-left: auto;
+            background: var(--primary-color);
+            color: #ffffff;
+        }
+
+        .bot-message {
+            margin-right: auto;
+            background: var(--message-background);
+        }
+
+        .code-block {
+            background: var(--code-background);
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            margin: 0.5rem 0;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+
+        .input-section {
+            padding: 1rem 2rem;
+            background: var(--primary-color);
+        }
+
+        .input-container {
+            display: flex;
+            gap: 1rem;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .upload-container {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        input[type="text"] {
+            flex-grow: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            background: #ffffff;
+            color: #333333;
+            transition: background 0.3s;
+        }
+
+        input[type="text"]::placeholder {
+            color: #666666;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            background: #ffffff;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+        }
+
+        button, .upload-label {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background: #ffffff;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        button:hover, .upload-label:hover {
+            background: #f0f0f0;
+        }
+
+        button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+
+        #file-upload {
+            display: none;
+        }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(30, 42, 74, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>EasyDocs</h1>
+            <h6>AI-Driven Knowledge Retrieval and Summarization System</h6>
+        </div>
+        <a href="/">Log Out</a>
+    </div>
+
+    <div class="chat-container">
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="input-section">
+            <div class="upload-container">
+                <label for="file-upload" class="upload-label" id="uploadLabel">📎 Upload Documents</label>
+                <input type="file" id="file-upload" multiple accept=".pdf,.doc,.docx,.txt,.py,.js,.java,.cpp,.cs,.rb,.go,.png,.jpg,.jpeg">
+            </div>
+            <div class="input-container">
+                <input type="text" id="userInput" placeholder="Ask a question about your documents...">
+                <button id="askButton">Ask</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <script>
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userInput');
+        const askButton = document.getElementById('askButton');
+        const fileUpload = document.getElementById('file-upload');
+        const uploadLabel = document.getElementById('uploadLabel');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+
+        let isProcessing = false;
+
+        function showLoading() {
+            loadingOverlay.style.display = 'flex';
+            isProcessing = true;
+            askButton.disabled = true;
+            uploadLabel.style.pointerEvents = 'none';
+        }
+
+        function hideLoading() {
+            loadingOverlay.style.display = 'none';
+            isProcessing = false;
+            askButton.disabled = false;
+            uploadLabel.style.pointerEvents = 'auto';
+        }
+
+        function addMessage(text, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+
+            if (text.includes('```')) {
+                const parts = text.split('```');
+                let messageContent = '';
+                parts.forEach((part, index) => {
+                    if (index % 2 === 0) {
+                        messageContent += part;
+                    } else {
+                        messageContent += `<div class="code-block">${part}</div>`;
+                    }
+                });
+                messageDiv.innerHTML = messageContent;
+            } else {
+                messageDiv.textContent = text;
+            }
+
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        async function handleFileUpload(event) {
+            const files = event.target.files;
+            if (!files.length) return;
+
+            showLoading();
+
+            const formData = new FormData();
+            Array.from(files).forEach(file => {
+                formData.append('files', file);
+            });
+
+            try {
+                const response = await fetch('/upload_documents', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                addMessage(result.message);
+            } catch (error) {
+                addMessage(`Error uploading documents: ${error.message}`);
+            } finally {
+                hideLoading();
+                fileUpload.value = '';
+            }
+        }
+
+        async function handleAskQuestion() {
+            const question = userInput.value.trim();
+            if (!question || isProcessing) return;
+
+            addMessage(question, true);
+            userInput.value = '';
+            showLoading();
+
+            try {
+                const response = await fetch('/ask_question', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ question })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    addMessage(result.response);
+                } else {
+                    addMessage(`Error: ${result.message}`);
+                }
+            } catch (error) {
+                addMessage(`Error: ${error.message}`);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        fileUpload.addEventListener('change', handleFileUpload);
+        askButton.addEventListener('click', handleAskQuestion);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleAskQuestion();
+            }
+        });
+
+        window.addEventListener('load', () => {
+            addMessage("Hello! I'm ready to help you with your documents. Please upload some documents to get started.");
+        });
+    </script>
+</body>
+
+</html>
